@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache,must-revalidate">
+    <meta http-equiv="Cache" content="no-cache">
+    <title>刷题使人快乐</title>
+    <link rel="stylesheet" href="./css/iview.css">
+
+    <style>
+        .title {
+            text-align: center;
+            margin-top: 2vw;
+        }
+        
+        .timuList {
+            width: 96vw;
+            margin: 2vw auto 0;
+        }
+        
+        .timu {
+            margin-top: 2vw;
+        }
+        
+        .author {
+            text-align: right;
+            padding-right: 3.2vw;
+            margin-bottom: 1.5vw;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="el">
+        <h1 class='title'>刷题使人快乐</h1>
+        <div class="timuList">
+            <div v-for="i in jsonList" @click='goNext(i.id,i.file)'>
+                <Card class="timu">
+                    <p slot="title">{{i.name}}</p>
+                    {{i.describe}}
+                </Card>
+            </div>
+
+        </div>
+    </div>
+
+    <footer style="text-align: center;">
+        <p>感谢 <a href="https://github.com/moke8/aishuati">@moke8</a> 的贡献</p>
+        <span id="timer"></span>
+    </footer>
+
+    <script src="./js/public.js?version=1.0"></script>
+    <script src="./js/vue.min.js"></script>
+    <script src="./js/iview.min.js"></script>
+    <script>
+        const vue = new Vue({
+            el: "#el",
+            data: {
+                jsonList: JSONList
+            },
+            methods: {
+                goNext: function(id, file) {
+                    sessionStorage.id = id;
+                    sessionStorage.file = file;
+                    window.location.href = "./type.html"
+                }
+            }
+        });
+
+        var timerElement = document.getElementById("timer");
+        var seconds = 0;
+
+        function startTimer() {
+            seconds++;
+
+            var hours = Math.floor(seconds / 3600);
+            var minutes = Math.floor((seconds % 3600) / 60);
+            var remainingSeconds = seconds % 60;
+
+            var formattedTime = pad(hours) + ":" + pad(minutes) + ":" + pad(remainingSeconds);
+
+            timerElement.textContent = "当前已卷时间：" + formattedTime;
+        }
+
+        function pad(number) {
+            return (number < 10) ? "0" + number : number;
+        }
+
+        var timer = setInterval(startTimer, 1000);
+    </script>
+</body>
+
+</html>
